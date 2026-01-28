@@ -1,4 +1,4 @@
-# Fund News Site - Prototype
+# Health News Site - Prototype
 
 This is a Next.js + Prisma prototype for a fund news website with an admin backend.
 
