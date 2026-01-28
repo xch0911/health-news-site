@@ -1,0 +1,30 @@
+{
+  "name": "fund-news-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "postinstall": "npx prisma generate",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "13.5.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@prisma/client": "6.13.0",
+    "prisma": "6.13.0",
+    "swr": "2.2.0",
+    "axios": "1.4.0",
+    "bcryptjs": "2.4.3",
+    "bcrypt": "5.1.1",
+    "jsonwebtoken": "9.0.0",
+    "cookie": "0.5.0",
+    "react-quill-new": "3.6.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.1",
+    "autoprefixer": "10.4.14",
+    "postcss": "8.4.26"
+  }
+}
