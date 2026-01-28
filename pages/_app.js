@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import { SWRConfig } from 'swr'
 import axios from 'axios'
+import Head from 'next/head'
 
 function MyApp({ Component, pageProps }) {
   return (
