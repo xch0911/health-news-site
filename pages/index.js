@@ -65,7 +65,7 @@ export default function Home({ articles, currentPage, totalPages }) {
     return (
         <div className="min-h-screen bg-white flex flex-col font-sans text-slate-900">
             <Head>
-                <title>AHR - 亚洲健康研究</title>
+                <title>亚洲健康研究</title>
                 <meta name="description" content="基于循证医学的亚洲健康洞察" />
             </Head>
 

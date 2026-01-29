@@ -34,7 +34,7 @@ export default function Article({ article }) {
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans text-slate-900">
       <Head>
-        <title>{article.title} - AHR Journal</title>
+        <title>{article.title} - 亚洲健康研究</title>
         <meta name="description" content={article.excerpt || article.title} />
       </Head>
 
