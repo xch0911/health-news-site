@@ -2,16 +2,16 @@ import Link from 'next/link'
 import prisma from '../lib/prisma'
 import Head from 'next/head'
 
-// SVG Icons
-const LeafIcon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177 7.547 7.547 0 01-1.705-1.715.75.75 0 00-1.152-.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z" clipRule="evenodd" />
+// Icons - More minimalist/scientific
+const ResearchIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
   </svg>
 )
 
-const CalendarIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0h18M5.25 12h13.5h-13.5zm13.5 3.75h-13.5h13.5z" />
+const ArrowRightIcon = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={className}>
+        <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
     </svg>
 )
 
@@ -23,29 +23,18 @@ const stripHtmlTags = (html) => {
 };
 
 export default function Home({ articles, currentPage, totalPages }) {
-    // 生成页码导航
+    // 生成页码导航 - 更简洁的样式
     const renderPagination = () => {
         const pages = [];
-        const btnClass = "px-4 py-2 mx-1 rounded-lg text-sm font-medium transition-colors duration-200 border";
-        const activeClass = "bg-emerald-600 text-white border-emerald-600 shadow-sm";
-        const inactiveClass = "bg-white text-slate-600 border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200";
-        const disabledClass = "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed";
+        const btnClass = "px-3 py-1 mx-0.5 text-sm font-medium transition-colors duration-200 border border-transparent hover:border-slate-300 rounded-sm";
+        const activeClass = "text-teal-900 border-slate-300 bg-slate-50";
+        const inactiveClass = "text-slate-500 hover:text-teal-800";
+        const disabledClass = "text-slate-300 cursor-not-allowed";
 
         // 首页
         pages.push(
             <Link key="first" href={`/?page=1`}>
-                <a className={`${btnClass} ${currentPage === 1 ? disabledClass : inactiveClass}`}>
-                    首页
-                </a>
-            </Link>
-        );
-
-        // 上一页
-        pages.push(
-            <Link key="prev" href={`/?page=${Math.max(1, currentPage - 1)}`}>
-                <a className={`${btnClass} ${currentPage === 1 ? disabledClass : inactiveClass}`}>
-                    上一页
-                </a>
+                <a className={`${btnClass} ${currentPage === 1 ? disabledClass : inactiveClass}`}>&laquo;</a>
             </Link>
         );
 
@@ -63,21 +52,10 @@ export default function Home({ articles, currentPage, totalPages }) {
             );
         }
 
-        // 下一页
-        pages.push(
-            <Link key="next" href={`/?page=${Math.min(totalPages, currentPage + 1)}`}>
-                <a className={`${btnClass} ${currentPage === totalPages ? disabledClass : inactiveClass}`}>
-                    下一页
-                </a>
-            </Link>
-        );
-
         // 末页
         pages.push(
             <Link key="last" href={`/?page=${totalPages}`}>
-                <a className={`${btnClass} ${currentPage === totalPages ? disabledClass : inactiveClass}`}>
-                    末页
-                </a>
+                <a className={`${btnClass} ${currentPage === totalPages ? disabledClass : inactiveClass}`}>&raquo;</a>
             </Link>
         );
 
@@ -85,146 +63,209 @@ export default function Home({ articles, currentPage, totalPages }) {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+        <div className="min-h-screen bg-white flex flex-col font-sans text-slate-900">
             <Head>
-                <title>亚洲健康研究 - 发现健康生活</title>
-                <meta name="description" content="从亚洲出发，定义健康新标准" />
+                <title>AHR - 亚洲健康研究</title>
+                <meta name="description" content="基于循证医学的亚洲健康洞察" />
             </Head>
 
-            {/* Header */}
-            <header className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
-                    <div className="flex items-center space-x-2">
-                        <LeafIcon className="w-8 h-8 text-emerald-600" />
-                        <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-                            亚洲健康研究
-                        </span>
+            {/* Top Bar - Very Academic */}
+            <div className="bg-slate-900 text-slate-300 text-xs py-1">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                    <span>Institute for Asian Health Research</span>
+                    <div className="space-x-4">
+                        <a href="#" className="hover:text-white">Subscribe</a>
+                        <a href="#" className="hover:text-white">Log in</a>
                     </div>
-                    <nav className="hidden md:flex space-x-8">
-                        <Link href="/"><a className="text-slate-600 hover:text-emerald-600 font-medium">首页</a></Link>
-                        <Link href="#"><a className="text-slate-600 hover:text-emerald-600 font-medium">健康资讯</a></Link>
-                        <Link href="#"><a className="text-slate-600 hover:text-emerald-600 font-medium">专家观点</a></Link>
-                        <Link href="#"><a className="text-slate-600 hover:text-emerald-600 font-medium">关于我们</a></Link>
-                    </nav>
-                     {/* mobile menu placeholder */}
-                    <div className="md:hidden">
-                        <button className="text-slate-500 hover:text-emerald-600">
-                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                        </button>
-                    </div>
-                </div>
-            </header>
-
-            {/* Hero Section */}
-            <div className="bg-gradient-to-br from-emerald-100 via-teal-50 to-white py-16 sm:py-24">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
-                        探索<span className="text-emerald-600">更健康</span>的生活方式
-                    </h1>
-                    <p className="max-w-2xl mx-auto text-lg text-slate-600 mb-8">
-                        汇集亚洲前沿健康资讯，为您提供科学、实用的生活指南。
-                    </p>
-                    {/* Search Bar Placeholder potentially */}
                 </div>
             </div>
 
-            {/* Main Content */}
-            <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-                <div className="flex justify-between items-end mb-8 border-b border-slate-200 pb-4">
-                    <h2 className="text-2xl font-bold text-slate-800 flex items-center">
-                        <span className="bg-emerald-600 w-1.5 h-6 rounded mr-3"></span>
-                        最新文章
-                    </h2>
+            {/* Header */}
+            <header className="border-b-2 border-slate-100 sticky top-0 bg-white z-20">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+                    <div className="flex items-center space-x-3">
+                        <div className="bg-teal-900 text-white p-1.5 rounded-sm">
+                             <ResearchIcon className="w-6 h-6" />
+                        </div>
+                        <span className="text-2xl font-serif font-bold text-slate-900 tracking-tight">
+                            Asian Health Research
+                        </span>
+                    </div>
+                    <nav className="hidden md:flex space-x-8 text-sm font-semibold tracking-wide uppercase text-slate-600">
+                        <Link href="/"><a className="hover:text-teal-900 border-b-2 border-transparent hover:border-teal-900 pb-1 transition-all">首页</a></Link>
+                        <Link href="#"><a className="hover:text-teal-900 border-b-2 border-transparent hover:border-teal-900 pb-1 transition-all">临床研究</a></Link>
+                        <Link href="#"><a className="hover:text-teal-900 border-b-2 border-transparent hover:border-teal-900 pb-1 transition-all">公共卫生</a></Link>
+                        <Link href="#"><a className="hover:text-teal-900 border-b-2 border-transparent hover:border-teal-900 pb-1 transition-all">政策洞察</a></Link>
+                        {/*<Link href="/admin"><a className="text-teal-800">Admin</a></Link>*/}
+                    </nav>
                 </div>
+            </header>
 
-                {articles.length > 0 ? (
-                    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                        {articles.map(a => (
-                            <Link key={a.id} href={`/articles/${a.id}`}>
-                                <a className="group block bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 overflow-hidden flex flex-col h-full ring-1 ring-slate-900/5 hover:ring-emerald-500/30 hover:-translate-y-1">
-                                    {/* Cover Image or Fallback */}
-                                    <div className="aspect-w-16 aspect-h-9 bg-slate-100 relative overflow-hidden h-48">
-                                        {a.coverUrl ? (
-                                            <img src={a.coverUrl} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt={a.title} />
-                                        ) : (
-                                           <div className="w-full h-full flex items-center justify-center bg-emerald-50 text-emerald-200">
-                                               <LeafIcon className="w-16 h-16 opacity-50" />
-                                           </div>
-                                        )}
-                                        <div className="absolute top-4 left-4">
-                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/90 text-emerald-800 backdrop-blur-sm shadow-sm">
-                                                健康资讯
-                                            </span>
-                                        </div>
+            {/* Hero Section - Clean, Typography focused */}
+            <div className="bg-slate-50 border-b border-slate-200">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+                    <div className="md:col-span-2">
+                        <span className="text-teal-800 font-bold tracking-wider uppercase text-xs mb-2 block">Featured Topic</span>
+                        <h1 className="text-4xl sm:text-5xl font-serif font-bold text-slate-900 mb-6 leading-tight">
+                            循证医学视野下的<br/>亚洲老龄化挑战与机遇
+                        </h1>
+                        <p className="text-xl text-slate-600 mb-8 font-light leading-relaxed">
+                            深度解析从东亚到东南亚的公共卫生数据，探索长寿时代的健康策略与医疗创新。
+                        </p>
+                        <a href="#" className="inline-flex items-center text-teal-900 font-semibold hover:underline">
+                            阅读报告概览 <ArrowRightIcon className="w-4 h-4 ml-1" />
+                        </a>
+                    </div>
+                    {/* Abstract illustration placeholder using CSS patterns */}
+                    <div className="h-64 bg-slate-200 relative overflow-hidden rounded-sm hidden md:block">
+                        <div className="absolute inset-0 bg-white opacity-50" style={{ backgroundImage: 'radial-gradient(#0f766e 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <ResearchIcon className="w-24 h-24 text-teal-900/10" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Content - Two Column Layout (Journal Style) */}
+            <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                {/* Left Column: Article List (8/12) */}
+                <div className="lg:col-span-8">
+                    <div className="flex items-center justify-between mb-8 border-b border-slate-200 pb-2">
+                        <h2 className="text-xl font-bold font-serif text-slate-900 uppercase tracking-wide">最新研究 Briefs</h2>
+                    </div>
+
+                    <div className="space-y-10">
+                        {articles.length > 0 ? (
+                            articles.map(a => (
+                                <article key={a.id} className="flex flex-col sm:flex-row gap-6 group">
+                                    {/* Thumbnail - Smaller, 4:3 ratio, sharp corners */}
+                                    <div className="sm:w-1/3 flex-shrink-0">
+                                        <Link href={`/articles/${a.id}`}>
+                                            <a className="block aspect-w-4 aspect-h-3 bg-slate-100 overflow-hidden relative border border-slate-200 hover:border-teal-700 transition-colors">
+                                                {a.coverUrl ? (
+                                                    <img src={a.coverUrl} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt={a.title} />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-300">
+                                                        <ResearchIcon className="w-10 h-10" />
+                                                    </div>
+                                                )}
+                                            </a>
+                                        </Link>
                                     </div>
                                     
-                                    <div className="p-6 flex flex-col flex-1">
-                                        <h3 className="text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-emerald-700 transition-colors">
-                                            {a.title}
-                                        </h3>
-                                        <p className="text-slate-600 mb-4 line-clamp-3 text-sm leading-relaxed flex-grow">
-                                            {a.excerpt || (stripHtmlTags(a.content).slice(0, 100) + '...')}
-                                        </p>
-                                        
-                                        <div className="mt-auto pt-4 flex items-center justify-between text-sm text-slate-400 border-t border-slate-100">
-                                            <div className="flex items-center space-x-2">
-                                                 <CalendarIcon className="w-4 h-4" />
-                                                 <span>{new Date(a.createdAt).toLocaleDateString('zh-CN')}</span>
+                                    <div className="flex-1 flex flex-col justify-between py-1">
+                                        <div>
+                                            <div className="flex items-center space-x-2 text-xs font-semibold text-teal-800 mb-2 uppercase tracking-wide">
+                                                <span>Research</span>
+                                                <span className="text-slate-300">|</span>
+                                                <span>Health Policy</span>
                                             </div>
-                                            <span className="text-emerald-600 font-medium group-hover:underline">阅读全文 &rarr;</span>
+                                            <Link href={`/articles/${a.id}`}>
+                                                <a>
+                                                    <h3 className="text-2xl font-serif font-bold text-slate-900 mb-3 group-hover:text-teal-900 leading-tight">
+                                                        {a.title}
+                                                    </h3>
+                                                </a>
+                                            </Link>
+                                            <p className="text-slate-600 text-sm leading-relaxed line-clamp-2 mb-4">
+                                                {a.excerpt || stripHtmlTags(a.content)}
+                                            </p>
+                                        </div>
+                                        
+                                        <div className="text-xs text-slate-400 font-mono mt-auto pt-2 border-t border-slate-50 flex items-center space-x-4">
+                                            <span>{new Date(a.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                                            {/*<span>Vol. 24, Issue 3</span>*/}
                                         </div>
                                     </div>
-                                </a>
-                            </Link>
-                        ))}
+                                </article>
+                            ))
+                        ) : (
+                            <div className="py-12 text-center text-slate-500 italic border border-slate-100 bg-slate-50">
+                                暂无研究文章数据
+                            </div>
+                        )}
                     </div>
-                ) : (
-                    <div className="text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200">
-                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 mb-4">
-                             <LeafIcon className="h-6 w-6 text-emerald-600" />
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="mt-16 pt-8 border-t border-slate-200 flex justify-center">
+                            {renderPagination()}
                         </div>
-                        <h3 className="mt-2 text-sm font-medium text-slate-900">暂无文章</h3>
-                        <p className="mt-1 text-sm text-slate-500">稍后再来看看吧。</p>
+                    )}
+                </div>
+
+                {/* Right Column: Sidebar (4/12) - Sticky */}
+                <aside className="lg:col-span-4 space-y-12">
+                    
+                    {/* Trending / Top Reads */}
+                    <div className="bg-slate-50 p-6 border border-slate-100">
+                        <h4 className="font-serif font-bold text-slate-900 mb-4 pb-2 border-b border-slate-200">热门阅读</h4>
+                        <ol className="list-decimal list-inside space-y-4 text-sm">
+                            <li className="pl-2 marker:font-bold marker:text-teal-800">
+                                <a href="#" className="hover:text-teal-800 text-slate-700 font-medium">2026年亚洲糖尿病流行病学报告更新</a>
+                            </li>
+                            <li className="pl-2 marker:font-bold marker:text-teal-800">
+                                <a href="#" className="hover:text-teal-800 text-slate-700 font-medium">心血管健康：新一代药物的临床表现</a>
+                            </li>
+                            <li className="pl-2 marker:font-bold marker:text-teal-800">
+                                <a href="#" className="hover:text-teal-800 text-slate-700 font-medium">远程医疗在东南亚农村区域的实践</a>
+                            </li>
+                        </ol>
                     </div>
-                )}
+
+                    {/* Newsletter - Minimal */}
+                    <div>
+                        <h4 className="font-serif font-bold text-slate-900 mb-3">Newsletter</h4>
+                        <p className="text-sm text-slate-600 mb-4">获取最新的健康研究摘要，每周发送。</p>
+                        <form className="flex flex-col space-y-2">
+                             <input type="email" placeholder="Email Address" className="px-3 py-2 border border-slate-300 text-sm focus:outline-none focus:border-teal-800" />
+                             <button className="bg-slate-900 text-white px-4 py-2 text-sm font-semibold hover:bg-slate-800 transition-colors">Subscribe</button>
+                        </form>
+                    </div>
+
+                    {/* Keywords */}
+                    <div>
+                        <h4 className="font-serif font-bold text-slate-900 mb-3 text-sm uppercase text-slate-500">Keywords</h4>
+                        <div className="flex flex-wrap gap-2">
+                            {['Public Health', 'Epidemiology', 'Nutrition', 'Mental Health', 'Policy', 'Genetics'].map(tag => (
+                                <a key={tag} href="#" className="px-2 py-1 bg-white border border-slate-200 text-xs text-slate-600 hover:border-teal-800 hover:text-teal-800 transition-colors">
+                                    {tag}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+
+                </aside>
             </main>
 
-            {/* 分页导航 */}
-            {totalPages > 1 && (
-                <div className="flex justify-center my-12">
-                    {renderPagination()}
-                </div>
-            )}
             
-            <footer className="bg-slate-900 text-slate-400 py-12 mt-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div>
-                        <div className="flex items-center space-x-2 mb-4">
-                           <LeafIcon className="w-6 h-6 text-emerald-500" />
-                           <span className="text-white font-bold text-lg">亚洲健康研究</span>
+            <footer className="bg-white border-t border-slate-200 mt-12 py-12">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm text-slate-600">
+                    <div className="col-span-1 md:col-span-1">
+                         <div className="flex items-center space-x-2 mb-4">
+                            <ResearchIcon className="w-5 h-5 text-teal-900" />
+                            <span className="font-serif font-bold text-slate-900">AHR</span>
                         </div>
-                        <p className="text-sm">致力于提供最前沿、最科学的亚洲健康资讯与研究报告。</p>
                     </div>
                     <div>
-                        <h4 className="text-white font-bold mb-4">快速链接</h4>
-                        <ul className="space-y-2 text-sm">
-                            <li><Link href="/"><a className="hover:text-emerald-400">首页</a></Link></li>
-                            <li><Link href="#"><a className="hover:text-emerald-400">关于我们</a></Link></li>
-                            <li><Link href="#"><a className="hover:text-emerald-400">联系方式</a></Link></li>
+                        <ul className="space-y-2">
+                            <li><a href="#" className="hover:text-teal-900">About the Institute</a></li>
+                            <li><a href="#" className="hover:text-teal-900">Editorial Board</a></li>
+                            <li><a href="#" className="hover:text-teal-900">Careers</a></li>
                         </ul>
                     </div>
                     <div>
-                         <h4 className="text-white font-bold mb-4">订阅我们</h4>
-                         <p className="text-sm mb-4">获取最新的健康资讯推送</p>
-                         {/* Fake form */}
-                         <div className="flex">
-                             <input type="email" placeholder="您的邮箱" className="bg-slate-800 text-white px-4 py-2 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-emerald-500 w-full" />
-                             <button className="bg-emerald-600 text-white px-4 py-2 rounded-r-lg hover:bg-emerald-700">订阅</button>
-                         </div>
+                        <ul className="space-y-2">
+                            <li><a href="#" className="hover:text-teal-900">Submit a Paper</a></li>
+                            <li><a href="#" className="hover:text-teal-900">Research Integrity</a></li>
+                            <li><a href="#" className="hover:text-teal-900">Privacy Policy</a></li>
+                        </ul>
                     </div>
-                </div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 text-center text-xs">
-                     &copy; {new Date().getFullYear()} 亚洲健康研究. All rights reserved.
+                    <div className="text-right md:text-right text-xs text-slate-400">
+                        <p>&copy; {new Date().getFullYear()} Asian Health Research.</p>
+                        <p>All rights reserved.</p>
+                    </div>
                 </div>
             </footer>
         </div>
