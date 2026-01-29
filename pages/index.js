@@ -112,7 +112,7 @@ export default function Home({ articles, currentPage, totalPages }) {
                         <p className="text-xl text-slate-600 mb-8 font-light leading-relaxed">
                             深度解析从东亚到东南亚的公共卫生数据，探索长寿时代的健康策略与医疗创新。
                         </p>
-                        <a href="#" className="inline-flex items-center text-teal-900 font-semibold hover:underline">
+                        <a href="/articles/1" className="inline-flex items-center text-teal-900 font-semibold hover:underline">
                             阅读报告概览 <ArrowRightIcon className="w-4 h-4 ml-1" />
                         </a>
                     </div>
